@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 
-class Dal(ABC):
+class DAL(ABC):
     @abstractmethod
-    def get_all_transactions(self):
+    def get_all_transactions_by_user_id(self):
         pass
     
     @abstractmethod
