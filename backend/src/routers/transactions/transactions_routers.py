@@ -35,6 +35,6 @@ async def add_transaction(request: Request, response: Response, user_id = 1):
 
 @router.delete('/transactions/{transaction_id}')
 def delete_transactions(transaction_id: str, response: Response, user_id = 1):
-    db_manager.delete_transaction(int(transaction_id))
+    db_manager.delete_transaction(user_id, int(transaction_id))
     response.status_code = status.HTTP_204_NO_CONTENT
 
