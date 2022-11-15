@@ -20,6 +20,7 @@ class SQL_Dal(DAL):
             cursorclass=pymysql.cursors.DictCursor
         )
     
+
     def get_all_transactions_by_user_id(self, userId: int) -> List[Transaction]:
         with self.connection.cursor() as cursor:
             cursor.execute(sql_queries_constants.GET_ALL_TRANSACTIONS_BY_USER_ID, userId)
@@ -29,16 +30,18 @@ class SQL_Dal(DAL):
 
     def insert_transaction(self, userId: int, transaction: Transaction) -> int:
         with self.connection.cursor() as cursor:
-            vendor = transaction.vendor
-            category = transaction.category
-            amount = transaction.amount
-            cursor.execute(sql_queries_constants.INSERT_TRANSACTION, [vendor, category, amount, userId])
+            cursor.execute(sql_queries_constants.INSERT_TRANSACTION,
+                    [transaction.vendor, transaction.category, transaction.amount, userId])
             self.connection.commit()
+            self._update_balance_of_user(userId, transaction.amount)
             return cursor.lastrowid
 
 
-    def delete_transaction(self, transactionId: int) -> None:
+    def delete_transaction(self, userId: int, transactionId: int) -> None:
         with self.connection.cursor() as cursor:
+            cursor.execute(sql_queries_constants.GET_TRANSACTION_BY_ID, transactionId)
+            transaction_amount = cursor.fetchone()['amount']
+            self._update_balance_of_user(userId, -1 * transaction_amount)
             cursor.execute(sql_queries_constants.DELETE_TRANSACTION_BY_ID, transactionId)
             self.connection.commit()
 
@@ -48,5 +51,14 @@ class SQL_Dal(DAL):
             cursor.execute(sql_queries_constants.GET_EXPENSES_BY_CATEGORIES, userId)
             return cursor.fetchall()
     
+
+    def _update_balance_of_user(self, userId: int, amount: int) -> None:
+        with self.connection.cursor() as cursor:
+            cursor.execute(sql_queries_constants.GET_USER_BY_ID, userId)
+            cur_user_balance = cursor.fetchone()['balance']
+            updated_balance = cur_user_balance + amount
+            cursor.execute(sql_queries_constants.UPDATE_BALANCE_OF_USER, [updated_balance, userId])
+            self.connection.commit()
+
 
 db_manager: DAL = SQL_Dal()
