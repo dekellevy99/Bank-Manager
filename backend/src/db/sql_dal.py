@@ -2,6 +2,7 @@ import pymysql
 from .dal import DAL
 from . import sql_queries_constants
 from models.transaction import Transaction
+from models.user import User
 from typing import List
 
 DEFAULT_HOST = "localhost"
@@ -40,8 +41,8 @@ class SQL_Dal(DAL):
     def delete_transaction(self, userId: int, transactionId: int) -> None:
         with self.connection.cursor() as cursor:
             cursor.execute(sql_queries_constants.GET_TRANSACTION_BY_ID, transactionId)
-            transaction_amount = cursor.fetchone()['amount']
-            self._update_balance_of_user(userId, -1 * transaction_amount)
+            transaction = Transaction(**cursor.fetchone())
+            self._update_balance_of_user(userId, -1 * transaction.amount)
             cursor.execute(sql_queries_constants.DELETE_TRANSACTION_BY_ID, transactionId)
             self.connection.commit()
 
@@ -55,8 +56,8 @@ class SQL_Dal(DAL):
     def _update_balance_of_user(self, userId: int, amount: int) -> None:
         with self.connection.cursor() as cursor:
             cursor.execute(sql_queries_constants.GET_USER_BY_ID, userId)
-            cur_user_balance = cursor.fetchone()['balance']
-            updated_balance = cur_user_balance + amount
+            user = User(**cursor.fetchone())
+            updated_balance = user.balance + amount
             cursor.execute(sql_queries_constants.UPDATE_BALANCE_OF_USER, [updated_balance, userId])
             self.connection.commit()
 
