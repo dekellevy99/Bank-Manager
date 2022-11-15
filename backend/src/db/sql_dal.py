@@ -42,3 +42,5 @@ class SQL_Dal(DAL):
             cursor.execute(sql_queries_constants.DELETE_TRANSACTION_BY_ID, transactionId)
             self.connection.commit()
     
+
+db_manager: DAL = SQL_Dal()
