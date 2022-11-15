@@ -12,3 +12,7 @@ class DAL(ABC):
     @abstractmethod
     def delete_transaction(self):
         pass
+
+    @abstractmethod
+    def get_expenses_by_categories(self):
+        pass

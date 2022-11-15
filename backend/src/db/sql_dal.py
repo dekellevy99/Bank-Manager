@@ -41,6 +41,12 @@ class SQL_Dal(DAL):
         with self.connection.cursor() as cursor:
             cursor.execute(sql_queries_constants.DELETE_TRANSACTION_BY_ID, transactionId)
             self.connection.commit()
+
+
+    def get_expenses_by_categories(self, userId: int):
+        with self.connection.cursor() as cursor:
+            cursor.execute(sql_queries_constants.GET_EXPENSES_BY_CATEGORIES, userId)
+            return cursor.fetchall()
     
 
 db_manager: DAL = SQL_Dal()
