@@ -1,0 +1,25 @@
+.nav-bar {
+    display: flex;
+    background-color: #2c3e50;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .nav-bar ul{
+    padding-left: 0;
+    margin: 0;
+  }
+  
+  .nav-bar ul li {
+    list-style: none;
+    display: inline-block;
+    margin: 0 15px;
+  }
+  
+  .nav-bar ul li a {
+    font-size: 1.5em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: bold;
+    color: #fff;
+  }

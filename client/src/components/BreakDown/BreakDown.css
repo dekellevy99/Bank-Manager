@@ -1,0 +1,32 @@
+.breakdown-container{
+    border: 4px solid  #fff;
+    width: 500px;
+    padding: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.breakdown-container .title{
+    text-decoration: underline;
+    font-weight: bold;
+    color: #fff;
+    text-transform: uppercase;
+    margin-left: 170px;
+}
+
+.category-details{
+    color: #fff;
+    font-weight: bold;
+    margin: 10px;
+    font-size: 20px;
+}
+
+.category-details .neg-total{
+    color: rgb(239, 135, 135);
+}
+
+.category-details .pos-total{
+    color: rgb(138, 192, 138);
+}

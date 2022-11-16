@@ -1,0 +1,11 @@
+.transactions-container {
+    display: inline-block;
+    padding: 25px;
+    max-height: 500px;
+    border: 5px solid #878787;
+    overflow-y: auto;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 40px 200px;
+}

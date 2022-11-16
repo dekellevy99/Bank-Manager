@@ -1,0 +1,66 @@
+.transaction{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 5px;
+    box-shadow: 0px 10px 15px rgba(0,0,0,0.1);
+    background-color: #ecf0f1;
+    padding: 20px;
+    position: relative;
+    width: 350px;
+    margin: 15px;
+}
+
+.transaction .details{
+    font-size: 1.5em;
+}
+
+.details > span{
+    margin: 5px;
+}
+
+.details .withdrawal{
+    color: rgb(239, 135, 135);
+    font-weight: bold;
+}
+
+.details .depoist{
+    color: rgb(138, 192, 138);
+    font-weight: bold;
+
+}
+
+.vendor{
+    font-size: 18px;
+    font-weight: bold;
+    color:#545252;
+}
+
+.category{
+    font-size: 18px;
+    font-weight: bold;
+    color:#545252;
+}
+
+
+.delete-operation button{
+    height: 30px;
+    width: 30x;
+    border-radius: 50%;
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+    padding: px;
+    cursor: pointer;
+    background-color: #628bb4;
+    border: 3px solid #6591be;
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.delete-operation button:hover{
+    background-color: #4981b9;
+}
+
+.transaction:hover{
+    transform: scale(1.1);
+}
