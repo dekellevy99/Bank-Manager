@@ -1,30 +1,35 @@
-import React, { Component } from 'react'
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
-import Transactions from './components/Transactions'
-import { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import {BrowserRouter as Router, Route} from 'react-router-dom'
+import Transactions from './components/Transactions/Transactions'
+import Header from './components/Header/Header'
+import TransactionOperations from './components/TransactionOperations/TransactionOperations'
+import BreakDown from './components/BreakDown/BreakDown'
+import axios from 'axios'
+import './App.css'
+
 
 export default function App() {
-  const [transactions, setTransactions] = useState([])
-  
-  useEffect(() => {
-    async function fecthTransactions(){
-      // todo - create http request to the server and fetch the 
-      // transaction. for now using mock data
-      const transactions = [
-          {id: 0, vendor: "Cyber", amount: 2000, category: "salary"},
-          {id: 1 , vendor: "Menora", amount: 3000, category: "salary"},
-          {id: 2, vendor: "Kampai", amount: -1000, category: "food"},
-      ]
-      setTransactions(transactions)
-    }
+  const [loggedUser, setLoggedUser] = useState({})
 
-    fecthTransactions()
-  }, [])
+  const _fetchUser = async function(){
+    let response = await axios.get("http://localhost:8000/users/1")
+    let user = response['data']
+    setLoggedUser(user)
+  }
+
+  useEffect(() => {_fetchUser()}, [])
 
   return (
-    <div>
-      <Transactions transactions={transactions} />
-    </div>
-        
+    <Router>
+      <div>
+        <Header balance={loggedUser.balance}/>
+
+        <Route exact path='/' render={() => <Transactions/>}></Route>
+        <Route exact path='/operations' render={() => <TransactionOperations/>}></Route>
+        <Route exact path='/breakdown' render={() => <BreakDown/>}></Route>
+      </div>
+
+    </Router>
+
   )
 }
