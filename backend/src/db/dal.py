@@ -16,3 +16,7 @@ class DAL(ABC):
     @abstractmethod
     def get_expenses_by_categories(self):
         pass
+    
+    @abstractmethod
+    def get_user_by_id(self):
+        pass

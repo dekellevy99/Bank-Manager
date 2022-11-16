@@ -23,6 +23,7 @@ class SQL_Dal(DAL):
     
 
     def get_all_transactions_by_user_id(self, userId: int) -> List[Transaction]:
+        self.connection.ping()
         with self.connection.cursor() as cursor:
             cursor.execute(sql_queries_constants.GET_ALL_TRANSACTIONS_BY_USER_ID, userId)
             transactions = [Transaction(**record) for record in cursor.fetchall()]
@@ -30,6 +31,7 @@ class SQL_Dal(DAL):
     
 
     def insert_transaction(self, userId: int, transaction: Transaction) -> int:
+        self.connection.ping()
         with self.connection.cursor() as cursor:
             cursor.execute(sql_queries_constants.INSERT_TRANSACTION,
                     [transaction.vendor, transaction.category, transaction.amount, userId])
@@ -39,6 +41,7 @@ class SQL_Dal(DAL):
 
 
     def delete_transaction(self, userId: int, transactionId: int) -> None:
+        self.connection.ping()
         with self.connection.cursor() as cursor:
             cursor.execute(sql_queries_constants.GET_TRANSACTION_BY_ID, transactionId)
             transaction = Transaction(**cursor.fetchone())
@@ -48,12 +51,21 @@ class SQL_Dal(DAL):
 
 
     def get_expenses_by_categories(self, userId: int):
+        self.connection.ping()
         with self.connection.cursor() as cursor:
             cursor.execute(sql_queries_constants.GET_EXPENSES_BY_CATEGORIES, userId)
             return cursor.fetchall()
     
 
+    def get_user_by_id(self, userId: int) -> User:
+        self.connection.ping()
+        with self.connection.cursor() as cursor:
+            cursor.execute(sql_queries_constants.GET_USER_BY_ID, userId)
+            return User(**cursor.fetchone())
+
+    
     def _update_balance_of_user(self, userId: int, amount: int) -> None:
+        self.connection.ping()
         with self.connection.cursor() as cursor:
             cursor.execute(sql_queries_constants.GET_USER_BY_ID, userId)
             user = User(**cursor.fetchone())
